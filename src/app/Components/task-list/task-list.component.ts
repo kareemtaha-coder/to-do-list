@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../Services/task.service';
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { FormsModule } from '@angular/forms';
 import { TaskFormComponent } from "../task-form/task-form.component";
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-task-list',
-  imports: [FormsModule, TaskItemComponent, TaskFormComponent],
+  imports: [FormsModule, TaskItemComponent, TaskFormComponent,NgIf,NgFor],
   templateUrl: './task-list.component.html'
 })
 export class TaskListComponent implements OnInit {
@@ -28,7 +29,36 @@ export class TaskListComponent implements OnInit {
   sortOption = 'createdAt'; // 'createdAt', 'dueDate', 'priority', 'title'
   sortDirection = 'desc'; // 'asc', 'desc'
 
-  constructor(private taskService: TaskService) {}
+     // Read the initial theme from localStorage.
+    // 'dark' stored in localStorage means dark mode is enabled.
+    private initialDark = localStorage.getItem('theme') === 'dark';
+
+    // Create an Angular signal to hold the dark mode state.
+    // Signals provide a reactive state that automatically triggers effects.
+    themeDark = signal(this.initialDark);
+
+
+    // Method to toggle the dark mode state.
+    toggleTheme(): void {
+      this.themeDark.set(!this.themeDark());
+    }
+
+  constructor(private taskService: TaskService) {
+
+     // Create a reactive effect that runs whenever the themeDark signal changes.
+    // It updates the <html> element's class and saves the theme preference.
+    effect(() => {
+      if (this.themeDark()) {
+        // If dark mode is active, add the "dark" class to the <html> tag.
+        document.documentElement.classList.add('dark');
+      } else {
+        // Otherwise, remove the "dark" class.
+        document.documentElement.classList.remove('dark');
+      }
+      // Persist the theme preference to localStorage.
+      localStorage.setItem('theme', this.themeDark() ? 'dark' : 'light');
+    });
+  }
 
   ngOnInit(): void {
     this.taskService.getTasks().subscribe(tasks => {
@@ -141,4 +171,5 @@ export class TaskListComponent implements OnInit {
     const isCompleted = status === 'completed';
     return this.tasks.filter(task => task.completed === isCompleted).length;
   }
+
 }

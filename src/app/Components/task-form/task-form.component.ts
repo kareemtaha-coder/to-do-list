@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskService } from '../../Services/task.service';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
-  imports: [FormsModule,ReactiveFormsModule],
+  imports: [FormsModule,ReactiveFormsModule,NgIf,NgFor],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.css'
 })
@@ -68,7 +69,7 @@ onSubmit(): void {
   };
 
   if (this.isEditMode && this.taskToEdit) {
-    this.taskService.UpdateTask({
+    this.taskService.updateTask({
       ...taskData,
       id: this.taskToEdit.id,
       createdAt: this.taskToEdit.createdAt
