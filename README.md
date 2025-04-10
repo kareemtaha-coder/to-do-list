@@ -1,59 +1,141 @@
-# ToDoList
+# Advanced Angular Todo List
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+A feature-rich task management application built with Angular and styled with Tailwind CSS.
 
-## Development server
+![Advanced Todo App Screenshot](https://via.placeholder.com/800x450)
 
-To start a local development server, run:
+## Features
+
+- ✅ Create, read, update, and delete tasks
+- 🔄 Mark tasks as complete/incomplete
+- 🏷️ Categorize tasks with custom categories
+- 🚩 Assign priority levels (high, medium, low)
+- 📅 Set due dates for tasks
+- 🔍 Advanced filtering and searching
+- 🔄 Sort tasks by various criteria
+- 📱 Responsive design
+- 💾 Local storage persistence
+
+## Technologies Used
+
+- **Angular** - Frontend framework
+- **Tailwind CSS** - Utility-first CSS framework
+- **RxJS** - Reactive extensions library
+- **LocalStorage API** - For data persistence
+
+## Installation and Setup
+
+### Prerequisites
+
+- Node.js (v14+)
+- npm or yarn
+
+### Clone the repository
+
+```bash
+git clone https://github.com/yourusername/angular-todo-app.git
+cd angular-todo-app
+```
+
+### Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### Development server
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── task-form/
+│   │   │   ├── task-form.component.ts
+│   │   │   └── task-form.component.html
+│   │   ├── task-list/
+│   │   │   ├── task-list.component.ts
+│   │   │   └── task-list.component.html
+│   │   └── task-item/
+│   │       ├── task-item.component.ts
+│   │       └── task-item.component.html
+│   ├── models/
+│   │   └── task.model.ts
+│   ├── services/
+│   │   └── task.service.ts
+│   ├── app.component.ts
+│   ├── app.component.html
+│   └── app.module.ts
+├── styles.css
+└── ...
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Usage Guide
 
-```bash
-ng generate --help
-```
+### Adding a Task
 
-## Building
+1. Click the "Add Task" button
+2. Fill in task details:
+   - Title (required)
+   - Description (optional)
+   - Priority (high, medium, low)
+   - Category
+   - Due Date (optional)
+3. Click "Add Task" to save
 
-To build the project run:
+### Managing Tasks
 
-```bash
-ng build
-```
+- Click the checkbox to mark a task as complete/incomplete
+- Click the task title to expand and see its full description
+- Use the edit button to modify task details
+- Use the delete button to remove a task
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Filtering and Sorting
 
-## Running unit tests
+- Use the status dropdown to filter by All, Active, or Completed tasks
+- Use the priority dropdown to filter tasks by priority level
+- Use the category dropdown to filter tasks by category
+- Use the search box to find tasks by title or description
+- Use the sort dropdown to order tasks by Created Date, Due Date, Priority, or Title
+- Click the sort direction button to toggle between ascending and descending order
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Adding More Features
 
-```bash
-ng test
-```
+Some ideas for extending the app:
 
-## Running end-to-end tests
+- Task tagging
+- Recurring tasks
+- Task notes or comments
+- Task sharing
+- Dark mode
+- User authentication
+- Cloud synchronization
 
-For end-to-end (e2e) testing, run:
+## Contributing
 
-```bash
-ng e2e
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Additional Resources
+## License
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Tailwind CSS for the styling utilities
+- Angular team for the amazing framework
+- All contributors and users of this app
