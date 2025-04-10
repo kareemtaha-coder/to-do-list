@@ -1,0 +1,129 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Task Manager</h1>
+    <button
+      (click)="showForm = !showForm; taskToEdit = undefined"
+      class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add Task
+    </button>
+  </div>
+
+  <app-task-form
+    *ngIf="showForm"
+    [taskToEdit]="taskToEdit"
+    (formClose)="onFormClose()"
+  ></app-task-form>
+
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <select
+          [(ngModel)]="filterOptions.status"
+          (change)="applyFilters()"
+          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+          <option value="all">All ({{ getTasksCountByStatus('all') }})</option>
+          <option value="active">Active ({{ getTasksCountByStatus('active') }})</option>
+          <option value="completed">Completed ({{ getTasksCountByStatus('completed') }})</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+        <select
+          [(ngModel)]="filterOptions.priority"
+          (change)="applyFilters()"
+          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+          <option value="all">All Priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+        <select
+          [(ngModel)]="filterOptions.category"
+          (change)="applyFilters()"
+          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+          <option value="all">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+        <div class="flex">
+          <select
+            [(ngModel)]="sortOption"
+            (change)="applyFilters()"
+            class="block w-full rounded-l-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          >
+            <option value="createdAt">Created Date</option>
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
+            <option value="title">Title</option>
+          </select>
+          <button
+            (click)="toggleSortDirection()"
+            class="px-3 bg-gray-100 border border-gray-300 rounded-r-md hover:bg-gray-200"
+            [title]="sortDirection === 'asc' ? 'Ascending' : 'Descending'"
+          >
+            <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+            </svg>
+            <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex mb-6">
+      <div class="flex-1">
+        <input
+          type="text"
+          [(ngModel)]="filterOptions.search"
+          (input)="applyFilters()"
+          placeholder="Search tasks..."
+          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+      </div>
+      <button
+        (click)="resetFilters()"
+        class="ml-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+      >
+        Reset Filters
+      </button>
+    </div>
+
+    <div *ngIf="filteredTasks.length === 0" class="text-center py-10">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+      <h3 class="mt-2 text-lg font-medium text-gray-900">No tasks found</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Try adjusting your filters or add a new task.
+      </p>
+    </div>
+
+    <div *ngIf="filteredTasks.length > 0">
+      <app-task-item
+        *ngFor="let task of filteredTasks"
+        [task]="task"
+        (toggleComplete)="toggleComplete($event)"
+        (edit)="editTask($event)"
+        (delete)="deleteTask($event)"
+      ></app-task-item>
+    </div>
+  </div>
+</div>
