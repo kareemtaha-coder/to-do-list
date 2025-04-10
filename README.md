@@ -33,8 +33,8 @@ A feature-rich task management application built with Angular and styled with Ta
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/angular-todo-app.git
-cd angular-todo-app
+git clone https://github.com/kareemtaha-coder/to-do-list.git
+cd to-do-list
 ```
 
 ### Install dependencies
