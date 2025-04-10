@@ -2,7 +2,8 @@
 
 A feature-rich task management application built with Angular and styled with Tailwind CSS.
 
-![Advanced Todo App Screenshot](https://via.placeholder.com/800x450)
+![Advanced Todo App Screenshot](./public/dark.png)
+![Advanced Todo App Screenshot](./public/light.png)
 
 ## Features
 
